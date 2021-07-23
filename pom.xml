@@ -4,7 +4,7 @@
     xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.qiot.manifacturing.factory</groupId>
+    <groupId>io.qiot.manufacturing.factory</groupId>
     <artifactId>core-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <properties>
@@ -31,27 +31,50 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!-- CORE -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
+        <!-- COMMONS -->
+        <dependency>
+            <groupId>io.qiot.manufacturing.all</groupId>
+            <artifactId>domain-model</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qiot.manufacturing.all</groupId>
+            <artifactId>utilities</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <!-- REST -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-swagger-ui</artifactId>
+        </dependency>
+        <!-- DATA -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-mongodb-client</artifactId>
+        </dependency>
+        <!-- TEST -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!-- BUILD -->
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-artemis-jms</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jackson</artifactId>
+            <artifactId>quarkus-container-image-docker</artifactId>
         </dependency>
     </dependencies>
     <build>

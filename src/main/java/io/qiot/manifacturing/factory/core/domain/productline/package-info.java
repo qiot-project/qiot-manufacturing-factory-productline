@@ -1,0 +1,1 @@
+package io.qiot.manifacturing.factory.core.domain.productline;
