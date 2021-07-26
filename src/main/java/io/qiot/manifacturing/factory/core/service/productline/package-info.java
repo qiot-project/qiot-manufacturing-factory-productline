@@ -1,1 +1,0 @@
-package io.qiot.manifacturing.factory.core.service.productline;
