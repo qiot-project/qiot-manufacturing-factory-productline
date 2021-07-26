@@ -14,7 +14,7 @@ public class DomainObjectsConverter {
 
     public ProductLineDTO domainToDTO(ProductLineBean bean) {
         ProductLineDTO dto = new ProductLineDTO();
-        dto.productLineId = bean.id;
+        dto.id = bean.id;
         dto.sizeChart = bean.sizeChart;
         dto.color = bean.color;
         dto.print = bean.print;
