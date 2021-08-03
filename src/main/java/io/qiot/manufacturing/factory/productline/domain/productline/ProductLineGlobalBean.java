@@ -13,9 +13,9 @@ import io.qiot.manufacturing.commons.domain.productline.SizeChartRangesDTO;
 import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@MongoEntity(collection="product_line")
+@MongoEntity(collection="product_line_global")
 @RegisterForReflection
-public class ProductLineBean {
+public class ProductLineGlobalBean {
     @BsonId
     public UUID id;
     public Instant createdOn;
@@ -39,7 +39,7 @@ public class ProductLineBean {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProductLineBean other = (ProductLineBean) obj;
+        ProductLineGlobalBean other = (ProductLineGlobalBean) obj;
         return Objects.equals(id, other.id);
     }
 

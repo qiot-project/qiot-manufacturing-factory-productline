@@ -8,7 +8,10 @@ import io.qiot.manufacturing.factory.productline.domain.event.NewProductLineEven
 
 public interface ProductLineService {
     List<ProductLineDTO> getActiveProductLines();
+
     List<ProductLineDTO> getAllProductLines();
+
     ProductLineDTO getLastProductLine();
+
     ProductLineDTO getProductLineById(UUID id);
 }
