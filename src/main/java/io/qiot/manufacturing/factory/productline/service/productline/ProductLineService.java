@@ -4,14 +4,17 @@ import java.util.List;
 import java.util.UUID;
 
 import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
-import io.qiot.manufacturing.factory.productline.domain.event.NewGlobalProductLineEventDTO;
 
 public interface ProductLineService {
-    List<ProductLineDTO> getActiveProductLines();
+    List<ProductLineDTO> getAllEdgeProductLines();
 
-    List<ProductLineDTO> getAllProductLines();
+    ProductLineDTO getLatestEdgeProductLine();
 
-    ProductLineDTO getLatestProductLine();
+    ProductLineDTO getEdgeProductLineById(UUID id);
 
-    ProductLineDTO getProductLineById(UUID id);
+    List<ProductLineDTO> getAllServiceProductLines();
+
+    ProductLineDTO getLatestServiceProductLine();
+
+    ProductLineDTO getServiceProductLineById(UUID id);
 }

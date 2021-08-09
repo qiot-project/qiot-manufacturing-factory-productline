@@ -16,10 +16,10 @@ import org.slf4j.Logger;
 import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.factory.productline.service.productline.ProductLineService;
 
-@Path("productline")
+@Path("productline/service")
 @Consumes(MediaType.TEXT_PLAIN)
 @Produces(MediaType.APPLICATION_JSON)
-public class ProductLineResource {
+public class ServiceProductLineResource {
 
     @Inject
     Logger LOGGER;
@@ -33,7 +33,7 @@ public class ProductLineResource {
         // LOGGER.info(
         // "Handling request for station id #{} and timezone offset {}",
         // stationId, timezoneOffset);
-        return productLineService.getAllProductLines();
+        return productLineService.getAllServiceProductLines();
     }
 
     @GET
@@ -42,7 +42,7 @@ public class ProductLineResource {
         // LOGGER.info(
         // "Handling request for station id #{} and timezone offset {}",
         // stationId, timezoneOffset);
-        return productLineService.getProductLineById(id);
+        return productLineService.getServiceProductLineById(id);
     }
 
     @GET
@@ -51,15 +51,6 @@ public class ProductLineResource {
         // LOGGER.info(
         // "Handling request for station id #{} and timezone offset {}",
         // stationId, timezoneOffset);
-        return productLineService.getLatestProductLine();
-    }
-
-    @GET
-    @Path("/active")
-    public List<ProductLineDTO> getActiveProductLines() {
-        // LOGGER.info(
-        // "Handling request for station id #{} and timezone offset {}",
-        // stationId, timezoneOffset);
-        return productLineService.getActiveProductLines();
+        return productLineService.getLatestServiceProductLine();
     }
 }

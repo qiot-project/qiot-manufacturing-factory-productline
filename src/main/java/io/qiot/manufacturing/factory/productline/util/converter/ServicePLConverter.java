@@ -7,17 +7,16 @@ import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import io.qiot.manufacturing.commons.domain.productline.GlobalProductLineDTO;
 import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.commons.util.converter.DataObjectConverter;
-import io.qiot.manufacturing.factory.productline.domain.persistence.EdgeProductLineBean;
+import io.qiot.manufacturing.factory.productline.domain.persistence.ServiceProductLineBean;
 
 @ApplicationScoped
-public class EdgePLConverter
-        implements DataObjectConverter<EdgeProductLineBean, ProductLineDTO> {
+public class ServicePLConverter
+        implements DataObjectConverter<ServiceProductLineBean, ProductLineDTO> {
 
     @Override
-    public ProductLineDTO sourceToDest(EdgeProductLineBean src) {
+    public ProductLineDTO sourceToDest(ServiceProductLineBean src) {
         ProductLineDTO dest = new ProductLineDTO();
         // TODO: add UUID codec and switch to UUID type for field id
         dest.id = UUID.fromString(src.id);
@@ -29,8 +28,8 @@ public class EdgePLConverter
     }
 
     @Override
-    public EdgeProductLineBean destToSource(ProductLineDTO dest) {
-        EdgeProductLineBean src = new EdgeProductLineBean();
+    public ServiceProductLineBean destToSource(ProductLineDTO dest) {
+        ServiceProductLineBean src = new ServiceProductLineBean();
         // TODO: add UUID codec and switch to UUID type for field id
         src.id = dest.id.toString();
         src.sizeChart = dest.sizeChart;
@@ -42,21 +41,21 @@ public class EdgePLConverter
 
     @Override
     public List<ProductLineDTO> allSourceToDest(
-            List<EdgeProductLineBean> srcs) {
+            List<ServiceProductLineBean> srcs) {
         if (Objects.isNull(srcs))
             return null;
         List<ProductLineDTO> dests = new ArrayList<>();
-        for (EdgeProductLineBean bean : srcs)
+        for (ServiceProductLineBean bean : srcs)
             dests.add(sourceToDest(bean));
         return dests;
     }
 
     @Override
-    public List<EdgeProductLineBean> allDestToSource(
+    public List<ServiceProductLineBean> allDestToSource(
             List<ProductLineDTO> dests) {
         if (Objects.isNull(dests))
             return null;
-        List<EdgeProductLineBean> srcs = new ArrayList<>();
+        List<ServiceProductLineBean> srcs = new ArrayList<>();
         for (ProductLineDTO dest : dests)
             srcs.add(destToSource(dest));
         return srcs;

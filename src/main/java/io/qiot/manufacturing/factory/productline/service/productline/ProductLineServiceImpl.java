@@ -19,13 +19,14 @@ import io.qiot.manufacturing.factory.productline.domain.event.LatestProductLineR
 import io.qiot.manufacturing.factory.productline.domain.event.NewEdgeProductLineEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.NewGlobalProductLineEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.SendLatestProductLineEventDTO;
-import io.qiot.manufacturing.factory.productline.domain.productline.ProductLineEdgeBean;
-import io.qiot.manufacturing.factory.productline.domain.productline.ProductLineGlobalBean;
-import io.qiot.manufacturing.factory.productline.persistence.ProductLineEdgeRepository;
-import io.qiot.manufacturing.factory.productline.persistence.ProductLineGlobalRepository;
+import io.qiot.manufacturing.factory.productline.domain.persistence.EdgeProductLineBean;
+import io.qiot.manufacturing.factory.productline.domain.persistence.ServiceProductLineBean;
+import io.qiot.manufacturing.factory.productline.persistence.EdgeProductLineRepository;
+import io.qiot.manufacturing.factory.productline.persistence.ServiceProductLineRepository;
 import io.qiot.manufacturing.factory.productline.util.converter.EdgePLConverter;
-import io.qiot.manufacturing.factory.productline.util.converter.GlobalLocalDTOConverter;
-import io.qiot.manufacturing.factory.productline.util.converter.GlobalPLConverter;
+import io.qiot.manufacturing.factory.productline.util.converter.GlobalEdgeDTOConverter;
+import io.qiot.manufacturing.factory.productline.util.converter.GlobalServiceDTOConverter;
+import io.qiot.manufacturing.factory.productline.util.converter.ServicePLConverter;
 
 @ApplicationScoped
 public class ProductLineServiceImpl implements ProductLineService {
@@ -34,21 +35,25 @@ public class ProductLineServiceImpl implements ProductLineService {
     Logger LOGGER;
 
     @Inject
-    ProductLineEdgeRepository edgePLRepository;
+    EdgeProductLineRepository edgePLRepository;
 
     @Inject
-    ProductLineGlobalRepository globalPLRepository;
+    ServiceProductLineRepository servicePLRepository;
 
     @Inject
     EdgePLConverter edgePLConverter;
 
     @Inject
-    GlobalPLConverter globalPLConverter;
+    ServicePLConverter servicePLConverter;
 
     @Inject
-    GlobalLocalDTOConverter productLineConverter;
+    GlobalEdgeDTOConverter globalLocalDTOConverter;
+
+    @Inject
+    GlobalServiceDTOConverter globalServiceDTOConverter;
 
     private ProductLineDTO edgeProductLineDTO;
+    private ProductLineDTO serviceProductLineDTO;
 
     private ReadWriteLock readWriteLock;
     private final Lock readLock;
@@ -76,19 +81,24 @@ public class ProductLineServiceImpl implements ProductLineService {
             throws Exception {
         writeLock.lock();
         try {
-            // convert and save global product line
-            ProductLineGlobalBean globalProductLineBean = globalPLConverter
-                    .destToSource(globalProductLineDTO);
-            globalPLRepository.persist(globalProductLineBean);
 
             // create edge product line
-            edgeProductLineDTO = productLineConverter
+            edgeProductLineDTO = globalLocalDTOConverter
+                    .sourceToDest(globalProductLineDTO);
+
+            // create service product line (do not apply margins)
+            serviceProductLineDTO = globalServiceDTOConverter
                     .sourceToDest(globalProductLineDTO);
 
             // convert and save edge product line
-            ProductLineEdgeBean productLineEdgeBean = edgePLConverter
+            EdgeProductLineBean edgeProductLineBean = edgePLConverter
                     .destToSource(edgeProductLineDTO);
-            edgePLRepository.persist(productLineEdgeBean);
+            edgePLRepository.persist(edgeProductLineBean);
+
+            // convert and save service product line
+            ServiceProductLineBean serviceProductLineBean = servicePLConverter
+                    .destToSource(serviceProductLineDTO);
+            servicePLRepository.persist(serviceProductLineBean);
 
             NewEdgeProductLineEventDTO notifyMachineriesEventDTO = new NewEdgeProductLineEventDTO();
             notifyMachineriesEventDTO.productLine = edgeProductLineDTO;
@@ -100,18 +110,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
-    public List<ProductLineDTO> getActiveProductLines() {
-        readLock.lock();
-        try {
-            return edgePLConverter.allSourceToDest(
-                    edgePLRepository.find("active", "true").list());
-        } finally {
-            readLock.unlock();
-        }
-    }
-
-    @Override
-    public List<ProductLineDTO> getAllProductLines() {
+    public List<ProductLineDTO> getAllEdgeProductLines() {
         readLock.lock();
         try {
             return edgePLConverter
@@ -122,7 +121,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
-    public ProductLineDTO getLatestProductLine() {
+    public ProductLineDTO getLatestEdgeProductLine() {
         readLock.lock();
         try {
             return edgeProductLineDTO;
@@ -132,20 +131,54 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
-    public ProductLineDTO getProductLineById(UUID id) {
+    public ProductLineDTO getEdgeProductLineById(UUID id) {
         readLock.lock();
         try {
-            return edgePLConverter.sourceToDest(edgePLRepository.findById(id));
+            return edgePLConverter
+                    .sourceToDest(edgePLRepository.findById(id.toString()));
         } finally {
             readLock.unlock();
         }
     }
-    
-    void onLastestProductlineRequest(@Observes LatestProductLineRequestedEventDTO event) {
-        SendLatestProductLineEventDTO eventDTO=new SendLatestProductLineEventDTO();
-        eventDTO.machineryId=event.machineryId;
-        eventDTO.productLine=getLatestProductLine();
+
+    void onLastestProductlineRequest(
+            @Observes LatestProductLineRequestedEventDTO event) {
+        SendLatestProductLineEventDTO eventDTO = new SendLatestProductLineEventDTO();
+        eventDTO.machineryId = event.machineryId;
+        eventDTO.productLine = getLatestEdgeProductLine();
         sendLatestProductLineEvent.fire(eventDTO);
+    }
+
+    @Override
+    public List<ProductLineDTO> getAllServiceProductLines() {
+        readLock.lock();
+        try {
+            return servicePLConverter
+                    .allSourceToDest(servicePLRepository.findAll().list());
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    @Override
+    public ProductLineDTO getLatestServiceProductLine() {
+        readLock.lock();
+        try {
+            return serviceProductLineDTO;
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    @Override
+    public ProductLineDTO getServiceProductLineById(UUID id) {
+        readLock.lock();
+        try {
+            return servicePLConverter
+                    .sourceToDest(servicePLRepository.findById(id.toString()));
+        } finally {
+            readLock.unlock();
+        }
     }
 
 }
