@@ -1,4 +1,4 @@
-package io.qiot.manufacturing.factory.productline.persistence.productline;
+package io.qiot.manufacturing.factory.productline.persistence;
 
 import java.util.UUID;
 

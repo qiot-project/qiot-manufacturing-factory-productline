@@ -3,6 +3,7 @@ package io.qiot.manufacturing.factory.productline.util.converter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -17,22 +18,30 @@ public class GlobalPLConverter implements
     @Override
     public GlobalProductLineDTO sourceToDest(ProductLineGlobalBean src) {
         GlobalProductLineDTO dest = new GlobalProductLineDTO();
-        dest.id = src.id;
+        // TODO: add UUID codec and switch to UUID type for field id
+        dest.id = UUID.fromString(src.id);
         dest.sizeChart = src.sizeChart;
         dest.color = src.color;
         dest.print = src.print;
         dest.packaging = src.packaging;
+        src.createdOn = dest.createdOn;
+        src.margins = dest.margins;
+        src.active = dest.active;
         return dest;
     }
 
     @Override
     public ProductLineGlobalBean destToSource(GlobalProductLineDTO dest) {
         ProductLineGlobalBean src = new ProductLineGlobalBean();
-        src.id = dest.id;
+        // TODO: add UUID codec and switch to UUID type for field id
+        src.id = dest.id.toString();
         src.sizeChart = dest.sizeChart;
         src.color = dest.color;
         src.print = dest.print;
         src.packaging = dest.packaging;
+        src.createdOn = dest.createdOn;
+        src.margins = dest.margins;
+        src.active = dest.active;
         return src;
     }
 

@@ -3,6 +3,7 @@ package io.qiot.manufacturing.factory.productline.util.converter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -18,7 +19,8 @@ public class EdgePLConverter
     @Override
     public ProductLineDTO sourceToDest(ProductLineEdgeBean src) {
         ProductLineDTO dest = new ProductLineDTO();
-        dest.id = src.id;
+        // TODO: add UUID codec and switch to UUID type for field id
+        dest.id = UUID.fromString(src.id);
         dest.sizeChart = src.sizeChart;
         dest.color = src.color;
         dest.print = src.print;
@@ -29,7 +31,8 @@ public class EdgePLConverter
     @Override
     public ProductLineEdgeBean destToSource(ProductLineDTO dest) {
         ProductLineEdgeBean src = new ProductLineEdgeBean();
-        src.id = dest.id;
+        // TODO: add UUID codec and switch to UUID type for field id
+        src.id = dest.id.toString();
         src.sizeChart = dest.sizeChart;
         src.color = dest.color;
         src.print = dest.print;

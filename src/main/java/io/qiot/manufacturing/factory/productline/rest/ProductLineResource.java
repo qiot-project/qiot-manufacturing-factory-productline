@@ -51,7 +51,7 @@ public class ProductLineResource {
         // LOGGER.info(
         // "Handling request for station id #{} and timezone offset {}",
         // stationId, timezoneOffset);
-        return productLineService.getLastProductLine();
+        return productLineService.getLatestProductLine();
     }
 
     @GET
