@@ -1,5 +1,6 @@
 package io.qiot.manufacturing.factory.productline.util.converter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +12,10 @@ import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.commons.util.converter.DataObjectConverter;
 import io.qiot.manufacturing.factory.productline.domain.persistence.ServiceProductLineBean;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @ApplicationScoped
 public class ServicePLConverter
         implements DataObjectConverter<ServiceProductLineBean, ProductLineDTO> {
@@ -32,6 +37,7 @@ public class ServicePLConverter
         ServiceProductLineBean src = new ServiceProductLineBean();
         // TODO: add UUID codec and switch to UUID type for field id
         src.id = dest.id.toString();
+        src.createdOn=Instant.now();
         src.sizeChart = dest.sizeChart;
         src.color = dest.color;
         src.print = dest.print;

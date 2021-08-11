@@ -11,14 +11,16 @@ import io.qiot.manufacturing.commons.domain.productline.PackagingRangesDTO;
 import io.qiot.manufacturing.commons.domain.productline.PrintingRangesDTO;
 import io.qiot.manufacturing.commons.domain.productline.SizeChartRangesDTO;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 public abstract class AbstractProductLineBean {
     //TODO: add UUID codec and switch to UUID type for field id
     @BsonId
     public String id;
     @BsonProperty(value = "created_on")
     public Instant createdOn;
-    @BsonProperty(value = "active")
-    boolean active;
     @BsonProperty(value = "size_chart")
     public SizeChartRangesDTO sizeChart;
     @BsonProperty(value = "color")

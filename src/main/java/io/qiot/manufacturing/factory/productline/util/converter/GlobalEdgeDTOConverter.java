@@ -12,6 +12,10 @@ import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.commons.domain.productline.SizeChartRangesDTO;
 import io.qiot.manufacturing.commons.util.converter.DataObjectConverter;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @ApplicationScoped
 public class GlobalEdgeDTOConverter
         implements DataObjectConverter<GlobalProductLineDTO, ProductLineDTO> {
@@ -71,7 +75,7 @@ public class GlobalEdgeDTOConverter
          */
         PrintingRangesDTO print = new PrintingRangesDTO();
         print.min = src.print.min - src.margins.printing;
-        print.max = src.print.min + src.margins.printing;
+        print.max = src.print.max + src.margins.printing;
         dest.print = print;
 
         /*
@@ -79,7 +83,7 @@ public class GlobalEdgeDTOConverter
          */
         PackagingRangesDTO packaging = new PackagingRangesDTO();
         packaging.min = src.packaging.min - src.margins.packaging;
-        packaging.max = src.packaging.min + src.margins.packaging;
+        packaging.max = src.packaging.max + src.margins.packaging;
         dest.packaging = packaging;
 
         return dest;

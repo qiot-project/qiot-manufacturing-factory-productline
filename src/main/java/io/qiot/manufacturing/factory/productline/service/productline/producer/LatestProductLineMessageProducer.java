@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.qiot.manufacturing.commons.domain.productionvalidation.ValidationResponseDTO;
 import io.qiot.manufacturing.commons.util.producer.ProductLineReplyToQueueNameProducer;
 import io.qiot.manufacturing.factory.productline.domain.event.SendLatestProductLineEventDTO;
 import io.quarkus.runtime.StartupEvent;
@@ -50,22 +49,25 @@ public class LatestProductLineMessageProducer {
     // @PostConstruct
     // void init() {
     void init(@Observes StartupEvent ev) {
-        LOGGER.info("Bootstrapping validation event producer...");
+        LOGGER.debug("Bootstrapping validation event producer...");
         if (Objects.nonNull(context))
             context.close();
         context = connectionFactory.createContext(Session.AUTO_ACKNOWLEDGE);
 
         producer = context.createProducer();
-        LOGGER.info("Bootstrap completed");
+        LOGGER.debug("Bootstrap completed");
 
     }
 
     void produce(@Observes SendLatestProductLineEventDTO event) {
-        LOGGER.info(
+        LOGGER.debug(
                 "Sending out latest product line info to requesting machinery {}",
                 event.machineryId);
-        Queue replyToQueue = context.createQueue(replyToQueueNameProducer
-                .getReplyToQueueName(event.machineryId));
+        if(Objects.isNull(event.machineryId))
+            return;
+        String replyToQueueName = replyToQueueNameProducer
+                .getReplyToQueueName(event.machineryId);
+        Queue replyToQueue = context.createQueue(replyToQueueName);
 
         try {
             String messagePayload = MAPPER

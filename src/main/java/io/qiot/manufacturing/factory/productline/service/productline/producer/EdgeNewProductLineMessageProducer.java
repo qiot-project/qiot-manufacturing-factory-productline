@@ -51,7 +51,7 @@ public class EdgeNewProductLineMessageProducer {
 
     @PostConstruct
     void init() {
-        LOGGER.info("Bootstrapping validation broadcast event producer...");
+        LOGGER.debug("Bootstrapping validation broadcast event producer...");
         if (Objects.nonNull(context))
             context.close();
         context = connectionFactory.createContext(Session.AUTO_ACKNOWLEDGE);
@@ -70,7 +70,7 @@ public class EdgeNewProductLineMessageProducer {
     }
 
     void notifyMachineries(@Observes NewEdgeProductLineEventDTO event) {
-        LOGGER.info("notifying machineries about the new Product Line {}",
+        LOGGER.debug("notifying machineries about the new Product Line {}",
                 event.productLine);
         try {
             String data = MAPPER.writeValueAsString(event.productLine);

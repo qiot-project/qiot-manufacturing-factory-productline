@@ -12,6 +12,10 @@ import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.commons.domain.productline.SizeChartRangesDTO;
 import io.qiot.manufacturing.commons.util.converter.DataObjectConverter;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @ApplicationScoped
 public class GlobalServiceDTOConverter
         implements DataObjectConverter<GlobalProductLineDTO, ProductLineDTO> {
@@ -34,7 +38,7 @@ public class GlobalServiceDTOConverter
         sizeChart.waistMin = src.sizeChart.waistMin;
         sizeChart.waistMax = src.sizeChart.waistMax;
         sizeChart.hipMin = src.sizeChart.hipMin;
-        sizeChart.hipMin = src.sizeChart.hipMin;
+        sizeChart.hipMax = src.sizeChart.hipMax;
         dest.sizeChart = sizeChart;
 
         /*
@@ -56,7 +60,7 @@ public class GlobalServiceDTOConverter
          */
         PrintingRangesDTO print = new PrintingRangesDTO();
         print.min = src.print.min;
-        print.max = src.print.min;
+        print.max = src.print.max;
         dest.print = print;
 
         /*
@@ -64,7 +68,7 @@ public class GlobalServiceDTOConverter
          */
         PackagingRangesDTO packaging = new PackagingRangesDTO();
         packaging.min = src.packaging.min;
-        packaging.max = src.packaging.min;
+        packaging.max = src.packaging.max;
         dest.packaging = packaging;
 
         return dest;

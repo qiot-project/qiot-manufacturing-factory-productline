@@ -13,6 +13,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.qiot.manufacturing.commons.domain.productline.GlobalProductLineDTO;
 import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.LatestProductLineRequestedEventDTO;
@@ -28,11 +30,18 @@ import io.qiot.manufacturing.factory.productline.util.converter.GlobalEdgeDTOCon
 import io.qiot.manufacturing.factory.productline.util.converter.GlobalServiceDTOConverter;
 import io.qiot.manufacturing.factory.productline.util.converter.ServicePLConverter;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @ApplicationScoped
 public class ProductLineServiceImpl implements ProductLineService {
 
     @Inject
     Logger LOGGER;
+
+    @Inject
+    ObjectMapper MAPPER;
 
     @Inject
     EdgeProductLineRepository edgePLRepository;
@@ -79,26 +88,36 @@ public class ProductLineServiceImpl implements ProductLineService {
 
     void handleNewProductLine(GlobalProductLineDTO globalProductLineDTO)
             throws Exception {
+        //TODO: switch to jackson ObjectMapper to log
+        LOGGER.debug("Handling a new product line\n{}", globalProductLineDTO);
         writeLock.lock();
         try {
-
-            // create edge product line
-            edgeProductLineDTO = globalLocalDTOConverter
-                    .sourceToDest(globalProductLineDTO);
 
             // create service product line (do not apply margins)
             serviceProductLineDTO = globalServiceDTOConverter
                     .sourceToDest(globalProductLineDTO);
+            LOGGER.info("Converted new SERVICE Product Line:\n{}",
+                    serviceProductLineDTO);
 
-            // convert and save edge product line
-            EdgeProductLineBean edgeProductLineBean = edgePLConverter
-                    .destToSource(edgeProductLineDTO);
-            edgePLRepository.persist(edgeProductLineBean);
+            // create edge product line
+            edgeProductLineDTO = globalLocalDTOConverter
+                    .sourceToDest(globalProductLineDTO);
+            LOGGER.info("Converted new EDGE Product Line:\n{}",
+                    edgeProductLineDTO);
 
-            // convert and save service product line
+            // save service product line
             ServiceProductLineBean serviceProductLineBean = servicePLConverter
                     .destToSource(serviceProductLineDTO);
+            LOGGER.debug("PERSISTED SERVICE Product Line:\n{}",
+                    serviceProductLineBean);
             servicePLRepository.persist(serviceProductLineBean);
+
+            // save edge product line
+            EdgeProductLineBean edgeProductLineBean = edgePLConverter
+                    .destToSource(edgeProductLineDTO);
+            LOGGER.debug("PERSISTED EDGE Product Line:\n{}",
+                    edgeProductLineBean);
+            edgePLRepository.persist(edgeProductLineBean);
 
             NewEdgeProductLineEventDTO notifyMachineriesEventDTO = new NewEdgeProductLineEventDTO();
             notifyMachineriesEventDTO.productLine = edgeProductLineDTO;

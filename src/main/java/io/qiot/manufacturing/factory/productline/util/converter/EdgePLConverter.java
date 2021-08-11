@@ -1,5 +1,6 @@
 package io.qiot.manufacturing.factory.productline.util.converter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,11 +8,14 @@ import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import io.qiot.manufacturing.commons.domain.productline.GlobalProductLineDTO;
 import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
 import io.qiot.manufacturing.commons.util.converter.DataObjectConverter;
 import io.qiot.manufacturing.factory.productline.domain.persistence.EdgeProductLineBean;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @ApplicationScoped
 public class EdgePLConverter
         implements DataObjectConverter<EdgeProductLineBean, ProductLineDTO> {
@@ -33,6 +37,7 @@ public class EdgePLConverter
         EdgeProductLineBean src = new EdgeProductLineBean();
         // TODO: add UUID codec and switch to UUID type for field id
         src.id = dest.id.toString();
+        src.createdOn=Instant.now();
         src.sizeChart = dest.sizeChart;
         src.color = dest.color;
         src.print = dest.print;

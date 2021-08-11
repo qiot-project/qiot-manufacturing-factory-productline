@@ -24,7 +24,7 @@
 //
 //    @Incoming("pollution")
 //    public void process(GlobalProductLineDTO data) {
-//        LOGGER.info("Consumed message {} from the PRODUCT LINE stream", data);
+//        LOGGER.debug("Consumed message {} from the PRODUCT LINE stream", data);
 //        NewProductLineEventDTO newProductLineEvent = new NewProductLineEventDTO();
 //        newProductLineEvent.productLine = data;
 //        event.fire(newProductLineEvent);

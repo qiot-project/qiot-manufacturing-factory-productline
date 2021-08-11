@@ -20,12 +20,15 @@ import javax.jms.Session;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.qiot.manufacturing.commons.domain.event.BootstrapCompletedEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.LatestProductLineRequestedEventDTO;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @ApplicationScoped
 public class LatestProductLineRequestMessageConsumer implements Runnable {
 
@@ -79,18 +82,22 @@ public class LatestProductLineRequestMessageConsumer implements Runnable {
         while (true) {
             try {
                 Message message = consumer.receive();
+                if (Objects.isNull(message)) {
+                    LOGGER.debug("Message invalid, discarding.");
+                    return;
+                }else {
                 String messagePayload = message.getBody(String.class);
-                LOGGER.info(
+                LOGGER.debug(
                         "Received a request for latest product line from machinery {}. Forwarding...",
                         messagePayload);
                 LatestProductLineRequestedEventDTO eventDTO = new LatestProductLineRequestedEventDTO();
                 eventDTO.machineryId = messagePayload;
-                latestProductLineRequestedEvent.fire(eventDTO);
+                latestProductLineRequestedEvent.fire(eventDTO);}
             } catch (JMSException e) {
                 LOGGER.error(
                         "The messaging client returned an error: {} and will be restarted.",
                         e);
-                doInit();
+//                doInit();
             } catch (Exception e) {
                 LOGGER.error("GENERIC ERROR", e);
             }

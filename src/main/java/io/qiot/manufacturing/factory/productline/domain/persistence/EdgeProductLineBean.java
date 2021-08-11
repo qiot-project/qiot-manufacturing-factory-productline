@@ -5,6 +5,10 @@ import javax.persistence.Cacheable;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+/**
+ * @author andreabattaglia
+ *
+ */
 @MongoEntity(collection = "product_line_edge")
 @Cacheable
 @RegisterForReflection

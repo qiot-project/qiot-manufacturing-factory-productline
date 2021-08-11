@@ -30,7 +30,7 @@
 //    @GET
 //    @Path("/")
 //    public List<ProductLineDTO> getAllProductLines() {
-//        // LOGGER.info(
+//        // LOGGER.debug(
 //        // "Handling request for station id #{} and timezone offset {}",
 //        // stationId, timezoneOffset);
 //        return productLineService.getAllEdgeProductLines();
@@ -39,7 +39,7 @@
 //    @GET
 //    @Path("/id/{id}")
 //    public ProductLineDTO getProductLineById(@PathParam("id") UUID id) {
-//        // LOGGER.info(
+//        // LOGGER.debug(
 //        // "Handling request for station id #{} and timezone offset {}",
 //        // stationId, timezoneOffset);
 //        return productLineService.getEdgeProductLineById(id);
@@ -48,7 +48,7 @@
 //    @GET
 //    @Path("/last")
 //    public ProductLineDTO getLastProductLine() {
-//        // LOGGER.info(
+//        // LOGGER.debug(
 //        // "Handling request for station id #{} and timezone offset {}",
 //        // stationId, timezoneOffset);
 //        return productLineService.getLatestEdgeProductLine();
@@ -57,7 +57,7 @@
 //    @GET
 //    @Path("/active")
 //    public List<ProductLineDTO> getActiveProductLines() {
-//        // LOGGER.info(
+//        // LOGGER.debug(
 //        // "Handling request for station id #{} and timezone offset {}",
 //        // stationId, timezoneOffset);
 //        return productLineService.getActiveEdgeProductLines();
