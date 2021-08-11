@@ -1,1 +1,0 @@
-package io.qiot.manufacturing.factory.productline.util.producer;

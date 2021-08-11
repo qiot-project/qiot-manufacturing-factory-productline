@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.qiot.manufacturing.commons.domain.event.BootstrapCompletedEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.LatestProductLineRequestedEventDTO;
+import io.quarkus.runtime.StartupEvent;
 
 /**
  * @author andreabattaglia
@@ -56,7 +57,7 @@ public class LatestProductLineRequestMessageConsumer implements Runnable {
     private final ExecutorService scheduler = Executors
             .newSingleThreadExecutor();
 
-    void init(@Observes BootstrapCompletedEventDTO event) {
+    void init(@Observes StartupEvent event) {
         doInit();
         scheduler.submit(this);
     }
