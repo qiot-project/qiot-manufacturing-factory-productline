@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.qiot.manufacturing.commons.domain.productline.GlobalProductLineDTO;
-import io.qiot.manufacturing.commons.domain.productline.ProductLineDTO;
+import io.qiot.manufacturing.all.commons.domain.productline.ProductLineDTO;
+import io.qiot.manufacturing.datacenter.commons.domain.productline.GlobalProductLineDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.LatestProductLineRequestedEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.NewEdgeProductLineEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.NewGlobalProductLineEventDTO;

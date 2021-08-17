@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.qiot.manufacturing.commons.domain.event.BootstrapCompletedEventDTO;
 import io.qiot.manufacturing.factory.productline.domain.event.LatestProductLineRequestedEventDTO;
 import io.quarkus.runtime.StartupEvent;
 
