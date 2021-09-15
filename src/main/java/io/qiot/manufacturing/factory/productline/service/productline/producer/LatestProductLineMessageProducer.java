@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.qiot.manufacturing.commons.util.producer.ProductLineReplyToQueueNameProducer;
+import io.qiot.manufacturing.factory.commons.util.producer.ProductLineReplyToQueueNameProducer;
 import io.qiot.manufacturing.factory.productline.domain.event.SendLatestProductLineEventDTO;
 import io.quarkus.runtime.StartupEvent;
 
