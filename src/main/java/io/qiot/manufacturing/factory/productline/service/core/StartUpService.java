@@ -7,8 +7,8 @@
 //
 //import org.slf4j.Logger;
 //
-//import io.qiot.manufacturing.commons.domain.event.BootstrapCompletedEventDTO;
-//import io.qiot.manufacturing.commons.domain.productline.GlobalProductLineDTO;
+//import io.qiot.manufacturing.factory.commons.domain.event.BootstrapCompletedEventDTO;
+//import io.qiot.manufacturing.factory.commons.domain.productline.GlobalProductLineDTO;
 //import io.qiot.manufacturing.commons.util.producer.SampleGlobalProductLineProducer;
 //import io.qiot.manufacturing.factory.productline.domain.event.NewGlobalProductLineEventDTO;
 //import io.quarkus.runtime.StartupEvent;

@@ -7,7 +7,7 @@
 //
 //import javax.enterprise.context.ApplicationScoped;
 //
-//import io.qiot.manufacturing.commons.domain.productline.GlobalProductLineDTO;
+//import io.qiot.manufacturing.factory.commons.domain.productline.GlobalProductLineDTO;
 //import io.qiot.manufacturing.commons.util.converter.DataObjectConverter;
 //import io.qiot.manufacturing.factory.productline.domain.persistence.ProductLineGlobalBean;
 //
