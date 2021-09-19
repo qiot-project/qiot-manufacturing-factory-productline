@@ -89,7 +89,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     void handleNewProductLine(GlobalProductLineDTO globalProductLineDTO)
             throws Exception {
         //TODO: switch to jackson ObjectMapper to log
-        LOGGER.debug("Handling a new product line\n{}", globalProductLineDTO);
+        LOGGER.info("Handling a new product line\n{}", globalProductLineDTO);
         writeLock.lock();
         try {
 
