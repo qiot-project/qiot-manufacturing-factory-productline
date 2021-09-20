@@ -1,7 +1,5 @@
 package io.qiot.manufacturing.factory.productline.service.productline.consumer;
 
-import java.io.IOException;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -29,20 +27,30 @@ public class GlobalProductLineStreamConsumer {
     @Inject
     Event<NewGlobalProductLineEventDTO> event;
 
+    //
+    // @Incoming("productline")
+    // public void process(String data) {
+    // try {
+    // GlobalProductLineDTO globalProductLineDTO = MAPPER.readValue(data,
+    // GlobalProductLineDTO.class);
+    // LOGGER.debug("Consumed message {} from the PRODUCT LINE stream",
+    // globalProductLineDTO);
+    // NewGlobalProductLineEventDTO newGlobalProductLineEventDTO = new
+    // NewGlobalProductLineEventDTO();
+    // newGlobalProductLineEventDTO.productLine = globalProductLineDTO;
+    // event.fire(newGlobalProductLineEventDTO);
+    // } catch (IOException e) {
+    // LOGGER.error(
+    // "an error occurred receiving the new product line from stream.",
+    // e);
+    // }
+    // }
     @Incoming("productline")
-    public void process(String data) {
-        try {
-            GlobalProductLineDTO globalProductLineDTO = MAPPER.readValue(data,
-                    GlobalProductLineDTO.class);
-            LOGGER.debug("Consumed message {} from the PRODUCT LINE stream",
-                    globalProductLineDTO);
-            NewGlobalProductLineEventDTO newGlobalProductLineEventDTO = new NewGlobalProductLineEventDTO();
-            newGlobalProductLineEventDTO.productLine = globalProductLineDTO;
-            event.fire(newGlobalProductLineEventDTO);
-        } catch (IOException e) {
-            LOGGER.error(
-                    "an error occurred receiving the new product line from stream.",
-                    e);
-        }
+    public void process(GlobalProductLineDTO globalProductLineDTO) {
+        LOGGER.debug("Consumed message {} from the GLOBAL PRODUCT LINE stream",
+                globalProductLineDTO);
+        NewGlobalProductLineEventDTO newGlobalProductLineEventDTO = new NewGlobalProductLineEventDTO();
+        newGlobalProductLineEventDTO.productLine = globalProductLineDTO;
+        event.fire(newGlobalProductLineEventDTO);
     }
 }
