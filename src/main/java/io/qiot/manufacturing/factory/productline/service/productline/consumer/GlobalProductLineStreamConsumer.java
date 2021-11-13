@@ -47,7 +47,7 @@ public class GlobalProductLineStreamConsumer {
     // }
     @Incoming("productline")
     public void process(GlobalProductLineDTO globalProductLineDTO) {
-        LOGGER.debug("Consumed message {} from the GLOBAL PRODUCT LINE stream",
+        LOGGER.info("Consumed message {} from the GLOBAL PRODUCT LINE stream",
                 globalProductLineDTO);
         NewGlobalProductLineEventDTO newGlobalProductLineEventDTO = new NewGlobalProductLineEventDTO();
         newGlobalProductLineEventDTO.productLine = globalProductLineDTO;
